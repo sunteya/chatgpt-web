@@ -1,4 +1,5 @@
 import express from 'express'
+import basicAuth from 'basic-auth'
 import type { ChatContext, ChatMessage } from './chatgpt'
 import { chatConfig, chatReplyProcess } from './chatgpt'
 import { auth } from './middleware/auth'
@@ -48,7 +49,9 @@ router.post('/config', async (req, res) => {
 router.post('/session', async (req, res) => {
   try {
     const AUTH_SECRET_KEY = process.env.AUTH_SECRET_KEY
-    const hasAuth = typeof AUTH_SECRET_KEY === 'string' && AUTH_SECRET_KEY.length > 0
+    let hasAuth = typeof AUTH_SECRET_KEY === 'string' && AUTH_SECRET_KEY.length > 0
+    const basicPass = basicAuth(req)?.pass
+    hasAuth &&= basicPass !== AUTH_SECRET_KEY.trim()
     res.send({ status: 'Success', message: '', data: { auth: hasAuth } })
   }
   catch (error) {
