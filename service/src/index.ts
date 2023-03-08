@@ -6,7 +6,7 @@ import { auth } from './middleware/auth'
 const app = express()
 const router = express.Router()
 
-app.use(express.static('public'))
+app.use('/chatgpt-web', express.static('public'))
 app.use(express.json())
 
 app.all('*', (_, res, next) => {
@@ -73,6 +73,6 @@ router.post('/verify', async (req, res) => {
 })
 
 app.use('', router)
-app.use('/api', router)
+app.use('/chatgpt-web/api', router)
 
 app.listen(3002, () => globalThis.console.log('Server is running on port 3002'))
