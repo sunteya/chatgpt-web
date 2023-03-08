@@ -43,6 +43,7 @@ export default defineConfig((env) => {
         },
       },
     },
+    base: "/chatgpt-web/",
     build: {
       reportCompressedSize: false,
       sourcemap: false,
